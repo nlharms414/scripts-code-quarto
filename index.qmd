@@ -18,7 +18,9 @@ Consider the 6 counting words examples in the [textbook module](https://srvander
 
 ---
 
-Replace this line of text with your 2-3 sentences about script-mode, interactive mode, and command-line mode in R and Python
+Interactive mode can either be done in the terminal or console if you are using R studio, and is used if you need a quick analysis, such as 3 x 2. Script mode on the other hand is more useful if you need to run many lines of code more than once, say for a program or project. A script allows you to save your code in a file that can be run again and again without having to retype it. Command-line mode is used within script mode to run code line by line and is especially useful for debugging code.
+
+Script, interactive, and command-line mode all work relatively the same in R and Python, the main differences come from the syntax used to run each.
 
 ---
 
@@ -35,9 +37,19 @@ Use the chunk below to define variables $a$, $b$, and $c$, where you define valu
 
 ```{r pythagorean-theorem-r}
 # Your pythagorean theorem code goes here
+a <- 3
+b <- 4
+c <- sqrt(a^2 + b^2)
+print(c)
+```
+```{python pythagorean theorem-py}
+import math as mt
+a = 3
+b = 4
+c = mt.sqrt(a**2 + b**2)
+print(c)
 
 ```
-
 ## Quadratic Formula in Python
 
 $$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
@@ -46,9 +58,33 @@ Use the chunk below to define variables $a$, $b$, and $c$, and then define $x1$ 
 
 ```{python quad-formula-py}
 # Your quadratic formula code goes here
+import math as mt
 
+a = 4
+b = 6
+c = 1
+
+
+disc = mt.sqrt(((b**2)-4*a*c))
+x1 = (-b + disc)/(2*a)
+x2 = (-b - disc)/(2*a)
+
+print("x1 =",round(x1,2))
+print("x2 =",round(x2,2))
 ```
+```{r quad formula}
+# quadratic formula using R code
+a <- 4
+b <- 6
+c <- 1
 
+disc <- sqrt((b**2)-4*a*c)
+x1 <- (-b + disc)/(2*a)
+x2 <- (-b - disc)/(2*a)
+
+print(x1)
+print(x2)
+```
 # Debugging practice
 
 Look at the data frame below, which contains 3 columns: `Name`, `Salary`, and `Hire.Year`. You've read in this data from the [data file online](https://github.com/unl-statistics/stat850/blob/main/homework/02-data.tsv) and ideally, you want to plot `Hire.Year` on the x-axis and `Salary` on the y-axis (code to do this is provided).
@@ -80,5 +116,14 @@ Here is how I solved the problem:
 
 ```{r cleaning-the-data-r}
 # Your implementation code goes here
+salary <- read.table("02-data.tsv", sep = "\t", header = T)
 
+# this line replaces the "problem" data point with an integer value so R reads it as an integer and not as a string, and therefore plots it correctly
+salary$Salary[1] <-67872
+salary
+
+library(ggplot2)
+ggplot(salary, aes(x = Hire.Year, y = Salary, label = Name)) + 
+  geom_label()
 ```
+The corrected plot above shows a negative correlation between the hire year and salary. As hire year increases, the salary decreases. Essentially this shows that employees who have worked at the company longer have higher salaries.
